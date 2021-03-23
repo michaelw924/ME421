@@ -21,3 +21,17 @@ simout = sim('Activity_2_sim');
 figure;
 hold on;
 plot(simout.Speed);
+xlabel('Time (sec)');
+ylabel('Angular Velocity (rad/sec)');
+
+% Isolating the data to the first curve (contained in first 0.4 seconds)
+calculationData = simout.Speed.Data(simout.Speed.Time <= 0.4);
+calculationTime = simout.Speed.Time(simout.Speed.Time <= 0.4);
+
+% Finding the time constant using the 63.2% method
+maxValue = max(calculationData);
+timeConstantValue = maxValue*0.632;
+absDiffList = abs(calculationData-timeConstantValue);
+timeConstantPoint = ...
+    [calculationTime(absDiffList == min(absDiffList)),...
+     calculationData(absDiffList == min(absDiffList))];
