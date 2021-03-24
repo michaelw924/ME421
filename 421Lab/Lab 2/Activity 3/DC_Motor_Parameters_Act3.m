@@ -37,6 +37,6 @@ timeConstantPoint = ...
      calculationData(absDiffList == min(absDiffList))];
 
 % Compare this time constant to Activity 2
-timeConstant_Act2 = 0.0165;
+timeConstant_Act2 = 0.016463;
 percentDiff = 100*(abs(timeConstantPoint(1)-timeConstant_Act2)/mean([timeConstant_Act2,timeConstantPoint(1)]));
 disp(strcat("The percent difference in time constants between Activity 2 and Activity 3 is ",num2str(percentDiff),"%"));

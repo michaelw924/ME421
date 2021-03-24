@@ -15,7 +15,7 @@ bm = 8.148e-7;
 Ra = 2.6;
 
 % Run the simulation
-simout = sim('Activity_2_sim');
+simout = sim('DC_Motor_Simulation_Act2');
 
 % Generate figure and plot results
 figure;
