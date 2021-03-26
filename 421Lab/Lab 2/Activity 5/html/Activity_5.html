@@ -1,0 +1,255 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Activity 5</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-03-26"><meta name="DC.source" content="Activity_5.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Activity 5</h1><p>3/25/21 Michael White Section 3 / Online</p><pre class="codeinput">close <span class="string">all</span>;
+clear <span class="string">all</span>;
+clc;
+
+<span class="comment">% I created a simplified excel table that includes the times and averaged</span>
+<span class="comment">% values as two, simple columns, and import it here with xlsread.</span>
+data = xlsread(<span class="string">'SimplifiedData.xlsx'</span>);
+time = data(:,1); voltage = data(:,2);
+
+<span class="comment">% Set parameters for simulation</span>
+Kt = 7.68e-3; <span class="comment">% Nm/A</span>
+Kb = 7.68e-3; <span class="comment">% V/(rad/sec)</span>
+L = 0.18e-3; <span class="comment">% H</span>
+J = 3.9e-7; <span class="comment">% kg*m^2</span>
+bm = 8.148e-7; <span class="comment">% Nm/(rad/sec)</span>
+Ra = 2.6; <span class="comment">% Ohm</span>
+
+<span class="comment">% Run simulation file from Activity 2</span>
+simout = sim(<span class="string">'DC_Motor_Simulation_Act2'</span>);
+
+<span class="comment">% Isolating the data to the first curve (contained in first 0.2 seconds)</span>
+calculationData = voltage(time &lt;= 0.2);
+calculationTime = time(time &lt;= 0.2);
+
+<span class="comment">% Finding the time constant using the 63.2% method</span>
+maxValue = max(calculationData);
+timeConstantValue = maxValue*0.632;
+absDiffList = abs(calculationData-timeConstantValue);
+timeConstantPoint = <span class="keyword">...</span>
+    [calculationTime(absDiffList == min(absDiffList)),<span class="keyword">...</span>
+     calculationData(absDiffList == min(absDiffList))];
+
+<span class="comment">% Define parameters to be used</span>
+Kt = 7.68e-3; <span class="comment">% Nm/A</span>
+Kb = 7.68e-3; <span class="comment">% V/(rad/sec)</span>
+L = 0.18e-3; <span class="comment">% H</span>
+J = 3.9e-7; <span class="comment">% kg*m^2</span>
+bm = 8.148e-7; <span class="comment">% Nm/(rad/sec)</span>
+Ra = 2.6; <span class="comment">% Ohm</span>
+Va = 4; <span class="comment">% V</span>
+
+<span class="comment">% Import data from other activities</span>
+w = 397.1749;
+timeConstant_Act2 = 0.016463;
+timeConstant_Act3 = 0.0177;
+
+<span class="comment">% Calculate beq from derived equation</span>
+beq = (1-exp(-1))*(Kt/(Ra*w));
+
+<span class="comment">% Calculate jeqs using time constant - beq relationship</span>
+jeq2 = timeConstant_Act2*beq;
+jeq3 = timeConstant_Act3*beq;
+jeqLab = timeConstantPoint(1)*beq;
+
+<span class="comment">% Display results</span>
+disp(strcat(<span class="string">"The value of Beq is "</span>,num2str(beq)));
+disp(strcat(<span class="string">"The value of Jeq for Activity 2 is "</span>,num2str(jeq2)));
+disp(strcat(<span class="string">"The value of Jeq for Activity 3 is "</span>,num2str(jeq3)));
+disp(strcat(<span class="string">"The value of Jeq from the lab data is "</span>,num2str(jeqLab)));
+
+<span class="comment">% Graph voltage data from lab</span>
+subplot(2,1,1);
+plot(time, voltage);
+xlabel(<span class="string">'Time (ms)'</span>);
+ylabel(<span class="string">'Voltage (V)'</span>);
+title(<span class="string">'Lab Data'</span>);
+
+<span class="comment">% Graph data from simulations</span>
+subplot(2,1,2);
+plot(simout.Speed.Data(simout.Speed.Time &lt;= 0.2));
+xlabel(<span class="string">'Time (sec)'</span>);
+ylabel(<span class="string">'Angular Velocity (rad/sec)'</span>);
+title(<span class="string">'Simulation Data'</span>);
+
+<span class="comment">% WRITTEN RESPONSES:</span>
+<span class="comment">% The simulated plot looks similar in shape to the experimental data,</span>
+<span class="comment">% though obviously there is some difference mathematically due to the</span>
+<span class="comment">% difference in time constants.</span>
+
+<span class="comment">% The calculated values are clearly different from the lab results. This</span>
+<span class="comment">% arises obviously from the difference in time constants. The time</span>
+<span class="comment">% constant from the lab is obviously greater than the calculated values.</span>
+<span class="comment">% This makes since as the lab setup is not going to be ideal and will</span>
+<span class="comment">% ultimately operate slower for potentially many different reasons. The</span>
+<span class="comment">% torque on the motor could have been greater than calculated. The friction</span>
+<span class="comment">% on the motor could have affected this, or the weight of the rod. Many</span>
+<span class="comment">% things could have affected this outcome.</span>
+</pre><pre class="codeoutput">The value of Beq is 4.7012e-06
+The value of Jeq for Activity 2 is 7.7395e-08
+The value of Jeq for Activity 3 is 8.3211e-08
+The value of Jeq from the lab data is 1.3398e-07
+</pre><img vspace="5" hspace="5" src="Activity_5_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Activity 5
+% 3/25/21
+% Michael White
+% Section 3 / Online
+close all;
+clear all;
+clc;
+
+% I created a simplified excel table that includes the times and averaged
+% values as two, simple columns, and import it here with xlsread.
+data = xlsread('SimplifiedData.xlsx');
+time = data(:,1); voltage = data(:,2);
+
+% Set parameters for simulation
+Kt = 7.68e-3; % Nm/A 
+Kb = 7.68e-3; % V/(rad/sec)
+L = 0.18e-3; % H 
+J = 3.9e-7; % kg*m^2
+bm = 8.148e-7; % Nm/(rad/sec)
+Ra = 2.6; % Ohm
+
+% Run simulation file from Activity 2
+simout = sim('DC_Motor_Simulation_Act2');
+
+% Isolating the data to the first curve (contained in first 0.2 seconds)
+calculationData = voltage(time <= 0.2);
+calculationTime = time(time <= 0.2);
+
+% Finding the time constant using the 63.2% method
+maxValue = max(calculationData);
+timeConstantValue = maxValue*0.632;
+absDiffList = abs(calculationData-timeConstantValue);
+timeConstantPoint = ...
+    [calculationTime(absDiffList == min(absDiffList)),...
+     calculationData(absDiffList == min(absDiffList))];
+ 
+% Define parameters to be used
+Kt = 7.68e-3; % Nm/A 
+Kb = 7.68e-3; % V/(rad/sec)
+L = 0.18e-3; % H 
+J = 3.9e-7; % kg*m^2
+bm = 8.148e-7; % Nm/(rad/sec)
+Ra = 2.6; % Ohm
+Va = 4; % V
+
+% Import data from other activities
+w = 397.1749;
+timeConstant_Act2 = 0.016463;
+timeConstant_Act3 = 0.0177;
+
+% Calculate beq from derived equation
+beq = (1-exp(-1))*(Kt/(Ra*w));
+
+% Calculate jeqs using time constant - beq relationship
+jeq2 = timeConstant_Act2*beq;
+jeq3 = timeConstant_Act3*beq;
+jeqLab = timeConstantPoint(1)*beq;
+
+% Display results
+disp(strcat("The value of Beq is ",num2str(beq)));
+disp(strcat("The value of Jeq for Activity 2 is ",num2str(jeq2)));
+disp(strcat("The value of Jeq for Activity 3 is ",num2str(jeq3)));
+disp(strcat("The value of Jeq from the lab data is ",num2str(jeqLab)));
+
+% Graph voltage data from lab
+subplot(2,1,1);
+plot(time, voltage);
+xlabel('Time (ms)');
+ylabel('Voltage (V)');
+title('Lab Data');
+
+% Graph data from simulations
+subplot(2,1,2);
+plot(simout.Speed.Data(simout.Speed.Time <= 0.2));
+xlabel('Time (sec)');
+ylabel('Angular Velocity (rad/sec)');
+title('Simulation Data');
+
+% WRITTEN RESPONSES:
+% The simulated plot looks similar in shape to the experimental data,
+% though obviously there is some difference mathematically due to the
+% difference in time constants.
+
+% The calculated values are clearly different from the lab results. This
+% arises obviously from the difference in time constants. The time
+% constant from the lab is obviously greater than the calculated values.
+% This makes since as the lab setup is not going to be ideal and will
+% ultimately operate slower for potentially many different reasons. The
+% torque on the motor could have been greater than calculated. The friction
+% on the motor could have affected this, or the weight of the rod. Many
+% things could have affected this outcome.
+##### SOURCE END #####
+--></body></html>

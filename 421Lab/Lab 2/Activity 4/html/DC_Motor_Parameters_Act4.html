@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Activity 2</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-03-26"><meta name="DC.source" content="DC_Motor_Parameters_Act2.m"><style type="text/css">
+      --><title>Activity 4</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-03-26"><meta name="DC.source" content="DC_Motor_Parameters_Act4.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,7 +67,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Activity 2</h1><p>3/25/21 Michael White Section 3 / Online</p><pre class="codeinput">close <span class="string">all</span>;
+  </style></head><body><div class="content"><h1>Activity 4</h1><p>3/25/21 Michael White Section 3 / Online</p><pre class="codeinput">close <span class="string">all</span>;
 clear <span class="string">all</span>;
 clc;
 
@@ -78,50 +78,30 @@ L = 0.18e-3; <span class="comment">% H</span>
 J = 3.9e-7; <span class="comment">% kg*m^2</span>
 bm = 8.148e-7; <span class="comment">% Nm/(rad/sec)</span>
 Ra = 2.6; <span class="comment">% Ohm</span>
+Va = 4; <span class="comment">% V</span>
 
-<span class="comment">% Run the simulation</span>
-simout = sim(<span class="string">'DC_Motor_Simulation_Act2'</span>);
+<span class="comment">% Import data from other activities</span>
+w = 397.1749;
+timeConstant_Act2 = 0.016463;
+timeConstant_Act3 = 0.0177;
 
-<span class="comment">% Generate figure and plot results</span>
-figure;
-hold <span class="string">on</span>;
-plot(simout.Speed);
-xlabel(<span class="string">'Time (sec)'</span>);
-ylabel(<span class="string">'Angular Velocity (rad/sec)'</span>);
+<span class="comment">% Calculate beq from derived equation</span>
+beq = (1-exp(-1))*(Kt/(Ra*w));
 
-<span class="comment">% WRITTEN RESPONSES:</span>
+<span class="comment">% Calculate jeqs using time constant - beq relationship</span>
+jeq2 = timeConstant_Act2*beq;
+jeq3 = timeConstant_Act3*beq;
 
-<span class="comment">% This system is clearly a first order system response, as it is simply</span>
-<span class="comment">% rising up to the maximum value in each trial, and not overshooting.</span>
-<span class="comment">% In addition, the governing function is a first order equation.</span>
-
-<span class="comment">% This activity asks for the max RPM that the motor reaches, but the output</span>
-<span class="comment">% for this system is in radians per second. This conversion and output can</span>
-<span class="comment">% be seen below, with the result being written to the command window.</span>
-
-<span class="comment">% Calculating the max RPM (including conversion from rad/sec)</span>
-maxRPM = max(simout.Speed.Data)*9.5492965;
-disp(strcat(<span class="string">"The max RPM reached by the motor is "</span>,num2str(maxRPM)));
-
-<span class="comment">% Isolating the data to the first curve (contained in first 0.2 seconds)</span>
-calculationData = simout.Speed.Data(simout.Speed.Time &lt;= 0.2);
-calculationTime = simout.Speed.Time(simout.Speed.Time &lt;= 0.2);
-
-<span class="comment">% Finding the time constant using the 63.2% method</span>
-maxValue = max(calculationData);
-timeConstantValue = maxValue*0.632;
-absDiffList = abs(calculationData-timeConstantValue);
-timeConstantPoint = <span class="keyword">...</span>
-    [calculationTime(absDiffList == min(absDiffList)),<span class="keyword">...</span>
-     calculationData(absDiffList == min(absDiffList))];
-
-<span class="comment">% Display the calculated time constant</span>
-disp(strcat(<span class="string">"The time constant of the system is "</span>,num2str(timeConstantPoint(1))));
-</pre><pre class="codeoutput">The max RPM reached by the motor is 6001.5095
-The time constant of the system is 0.016463
-</pre><img vspace="5" hspace="5" src="DC_Motor_Parameters_Act2_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+<span class="comment">% Display results</span>
+disp(strcat(<span class="string">"The value of Beq is "</span>,num2str(beq)));
+disp(strcat(<span class="string">"The value of Jeq for Activity 2 is "</span>,num2str(jeq2)));
+disp(strcat(<span class="string">"The value of Jeq for Activity 3 is "</span>,num2str(jeq3)));
+</pre><pre class="codeoutput">The value of Beq is 4.7012e-06
+The value of Jeq for Activity 2 is 7.7395e-08
+The value of Jeq for Activity 3 is 8.3211e-08
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-%% Activity 2
+%% Activity 4
 % 3/25/21
 % Michael White
 % Section 3 / Online
@@ -136,44 +116,23 @@ L = 0.18e-3; % H
 J = 3.9e-7; % kg*m^2
 bm = 8.148e-7; % Nm/(rad/sec)
 Ra = 2.6; % Ohm
+Va = 4; % V
 
-% Run the simulation
-simout = sim('DC_Motor_Simulation_Act2');
+% Import data from other activities
+w = 397.1749;
+timeConstant_Act2 = 0.016463;
+timeConstant_Act3 = 0.0177;
 
-% Generate figure and plot results
-figure;
-hold on;
-plot(simout.Speed);
-xlabel('Time (sec)');
-ylabel('Angular Velocity (rad/sec)');
+% Calculate beq from derived equation
+beq = (1-exp(-1))*(Kt/(Ra*w));
 
-% WRITTEN RESPONSES:
+% Calculate jeqs using time constant - beq relationship
+jeq2 = timeConstant_Act2*beq;
+jeq3 = timeConstant_Act3*beq;
 
-% This system is clearly a first order system response, as it is simply
-% rising up to the maximum value in each trial, and not overshooting. 
-% In addition, the governing function is a first order equation.
-
-% This activity asks for the max RPM that the motor reaches, but the output
-% for this system is in radians per second. This conversion and output can
-% be seen below, with the result being written to the command window.
-
-% Calculating the max RPM (including conversion from rad/sec)
-maxRPM = max(simout.Speed.Data)*9.5492965;
-disp(strcat("The max RPM reached by the motor is ",num2str(maxRPM)));
-
-% Isolating the data to the first curve (contained in first 0.2 seconds)
-calculationData = simout.Speed.Data(simout.Speed.Time <= 0.2);
-calculationTime = simout.Speed.Time(simout.Speed.Time <= 0.2);
-
-% Finding the time constant using the 63.2% method
-maxValue = max(calculationData);
-timeConstantValue = maxValue*0.632;
-absDiffList = abs(calculationData-timeConstantValue);
-timeConstantPoint = ...
-    [calculationTime(absDiffList == min(absDiffList)),...
-     calculationData(absDiffList == min(absDiffList))];
- 
-% Display the calculated time constant
-disp(strcat("The time constant of the system is ",num2str(timeConstantPoint(1))));
+% Display results
+disp(strcat("The value of Beq is ",num2str(beq)));
+disp(strcat("The value of Jeq for Activity 2 is ",num2str(jeq2)));
+disp(strcat("The value of Jeq for Activity 3 is ",num2str(jeq3)));
 ##### SOURCE END #####
 --></body></html>

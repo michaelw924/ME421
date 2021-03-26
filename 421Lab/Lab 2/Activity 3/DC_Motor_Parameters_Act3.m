@@ -1,5 +1,5 @@
 %% Activity 3
-% 3/5/21
+% 3/25/21
 % Michael White
 % Section 3 / Online
 close all;
@@ -7,12 +7,12 @@ clear all;
 clc;
 
 % Define parameters to be used
-Kt = 7.68e-3;
-Kb = 7.68e-3;
-L = 0;
-J = 3.9e-7;
-bm = 8.148e-7;
-Ra = 2.6;
+Kt = 7.68e-3; % Nm/A 
+Kb = 7.68e-3; % V/(rad/sec)
+L = 0; % H 
+J = 3.9e-7; % kg*m^2
+bm = 8.148e-7; % Nm/(rad/sec)
+Ra = 2.6; % Ohm
 
 % Run the simulation
 simout = sim('DC_Motor_Sim_Act3');
