@@ -7,24 +7,40 @@ clear all;
 clc;
 
 % Import data table for voltage
-vData = readtable('voltageData.xlsx');
+wData = readtable('waterData.xlsx');
 
-% Calculate parameters related to time constant value
-maxV = max(vData.V);
-minV = min(vData.V);
-Vpp = maxV-minV;
-TauVal = 0.632*Vpp;
+% Input/calculate parameters related to time constant value
+g = 9.81; %m/s^2
+diameter = 0.0635; %m
+A = pi/4*diameter^2; %m^2
+R = 743000; %1/ms
+TheoTau = A*R/g;
+
+% Pull logarithmic fit function from excel
+syms logFit(x);
+logFit(x) = 1.5067*log(x)-3.9509;
+ExpTau(2) = 0.632*6.4; %Found this to be roughly the max height experimentally
 
 % Find the closest point to the calculated time constant value
-absDiffList = abs(vData.ShiftedV-TauVal);
-TauPoint = ...
-    [vData.ShiftedTime(absDiffList == min(absDiffList)),...
-     vData.ShiftedV(absDiffList == min(absDiffList))];
- 
-% Plot figure of shifted data with time constant point.
+absDiffList = abs(wData.Height-ExpTau(2));
+ExpTau = ...
+    [wData.TimeElapsed(absDiffList == min(absDiffList)),...
+     wData.Height(absDiffList == min(absDiffList))];
+
+% Plot figure of data with fit line and time constant point.
 figure;
 hold on;
-plot(vData.ShiftedTime,vData.ShiftedV);
-scatter(TauPoint(1),TauPoint(2));
-legend('Voltage Data','Time Constant');
+scatter(wData.TimeElapsed,wData.Height);
+fplot(logFit(x));
+scatter(ExpTau(1),ExpTau(2),'*r');
+plot([TheoTau,TheoTau],[-8,6]);
 
+% Cleanup graph and add legend, title, and labels
+title('Height (cm) vs. Time (s)');
+legend({'Height Data','Log Fit','Experimental TC','Theoretical TC'},'Location','southeast');
+xlabel('Time (s)');
+ylabel('Height (cm)');
+
+% Display results to command window
+disp('Theoretical TC =');disp(TheoTau);
+disp('Experimental TC =');disp(ExpTau(1));
