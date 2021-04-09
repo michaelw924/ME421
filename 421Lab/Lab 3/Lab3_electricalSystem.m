@@ -1,4 +1,4 @@
-%% Lab 3
+%% Lab 3 - Electrical System
 % 3/25/21
 % Michael White
 % Section 3 / Online
